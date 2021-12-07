@@ -22,6 +22,7 @@ public class CameraFollow : MonoBehaviour
             Vector3 newPos = ballTarget.position;
             Vector3 delta = oldPos - newPos;
             delta.y = 0f;//по y не будет меняться
+           
                          // Debug.Log(delta.x + " " + delta.z);
             transform.position = transform.position - delta;
             oldPos = newPos;

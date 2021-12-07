@@ -18,6 +18,18 @@ public class BallScript : MonoBehaviour
     private void Update()
     {
         CheckInput();
+
+        CheckFalling();
+    }
+
+    private void CheckFalling()
+    {
+        if (rb.velocity.y < -0.5f)
+        {
+            Debug.Log("педорахнулся");
+            //Конец игры!!!!!
+            //звук педорахания и тд
+        }
     }
 
     private void FixedUpdate()
