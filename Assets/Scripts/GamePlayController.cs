@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GamePlayController : MonoBehaviour
@@ -18,6 +20,7 @@ public class GamePlayController : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    [SerializeField] private AudioClip coinColllect, playerDead,changerotation;
     
     //измен цвета
     [SerializeField] private Material tileMat;
@@ -44,6 +47,15 @@ public class GamePlayController : MonoBehaviour
 
     private int direction=1;
     
+    
+    //текс 
+    [SerializeField] private Text scoreText;
+    private int score;
+    
+    [SerializeField] private Text scoreTextFinal;
+    [SerializeField] private Text highScoreTextFinal;
+    
+    [SerializeField] private GameObject GOpanel;
     private void Awake()
     {
         if (instance == null)
@@ -164,6 +176,66 @@ public class GamePlayController : MonoBehaviour
     public void ActivateSpawn()
     {
         StartCoroutine(nameof(SpawnTiles));
+    }
+
+    public void PlayerDied()
+    {
+        gamePlaying = false;
+        _audioSource.PlayOneShot(playerDead);
+    }
+
+    public void CollectJem()
+    {
+       
+        _audioSource.PlayOneShot(coinColllect);
+    }
+
+    public void ChangeDiraction()
+    {
+        _audioSource.PlayOneShot(changerotation);
+    }
+    
+    public void IncrementScore()
+    {
+        score++;
+        scoreText.text = "Score: "+score;
+    }
+    
+    public void RestartGame()
+    {
+       
+        ShowEndRes();
+        GOpanel.SetActive(true);
+        gamePlaying = false;
+        Invoke(nameof(ReloadGame),4f);
+    }
+    void ReloadGame()
+    {
+        SceneManager.LoadScene("GamePlay");
+    }
+    
+    void ShowEndRes()
+    {
+        if (PlayerPrefs.HasKey("hightScore"))
+        {
+            if (score > PlayerPrefs.GetInt("hightScore"))
+            {
+                PlayerPrefs.SetInt("hightScore",score);
+                highScoreTextFinal.text = score.ToString();
+            } 
+            else
+            {
+                highScoreTextFinal.text = PlayerPrefs.GetInt("hightScore").ToString();
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("hightScore",score);
+            highScoreTextFinal.text = score.ToString();
+        }
+
+        scoreTextFinal.text = score.ToString();
+
     }
 
    

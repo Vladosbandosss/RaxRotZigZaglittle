@@ -24,10 +24,12 @@ public class BallScript : MonoBehaviour
 
     private void CheckFalling()
     {
-        if (rb.velocity.y < -0.5f)
+        if (rb.transform.position.y < -2f)
         {
-            Debug.Log("педорахнулся");
+            
             //Конец игры!!!!!
+            GamePlayController.instance.PlayerDied();
+            GamePlayController.instance.RestartGame();
             //звук педорахания и тд
         }
     }
@@ -66,6 +68,7 @@ public class BallScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                GamePlayController.instance.ChangeDiraction();
                 moveLeft = !moveLeft;
             }
         }

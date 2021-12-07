@@ -10,7 +10,8 @@ public class JenSparkle : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            Debug.Log("эффукт");
+           GamePlayController.instance.CollectJem();
+           GamePlayController.instance.IncrementScore();
             Instantiate(sparkleFX, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
         }
